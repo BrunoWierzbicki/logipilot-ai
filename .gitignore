@@ -1,0 +1,29 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+*.db
+*.db-journal
+*.sqlite3
+.DS_Store
+reports/*.md
+!reports/.gitkeep
+# Índice vetorial gerado localmente pelo Ollama
+/data/embeddings_index.json
+/data/embeddings_index.json.tmp
+
+# Arquivos locais e ferramentas de desenvolvimento
+.vscode/
+.idea/
+*.log
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+*.zip
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12

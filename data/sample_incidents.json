@@ -1,0 +1,11 @@
+[
+  {"description": "Atraso na entrega de pedidos na região norte por trânsito intenso"},
+  {"description": "Avaria encontrada na embalagem do lote de alimentos"},
+  {"description": "Extravio de carga identificado durante conferência no centro de distribuição"},
+  {"description": "Pedido entregue normalmente e comprovante disponibilizado"},
+  {"description": "Veículo parado com pane mecânica durante o trajeto"},
+  {"description": "Reagendamento solicitado pelo destinatário após tentativa de entrega"},
+  {"description": "Suspeita de roubo de mercadoria reportada pelo transportador"},
+  {"description": "Consulta ao cadastro fiscal da transportadora"},
+  {"description": "Demora na atualização do status de rastreamento"}
+]

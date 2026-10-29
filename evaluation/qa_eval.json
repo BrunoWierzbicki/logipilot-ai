@@ -1,0 +1,32 @@
+[
+  {
+    "question": "O que fazer quando uma carga é extraviada?",
+    "expected_document": "ocorrencias.md",
+    "expected_topic": "extravio"
+  },
+  {
+    "question": "Como registrar uma tentativa de entrega quando o destinatário está ausente?",
+    "expected_document": "entregas.md",
+    "expected_topic": "tentativa"
+  },
+  {
+    "question": "Qual procedimento em caso de avaria na embalagem?",
+    "expected_document": "ocorrencias.md",
+    "expected_topic": "avaria"
+  },
+  {
+    "question": "Como consultar divergências de repasses financeiros?",
+    "expected_document": "financeiro.md",
+    "expected_topic": "repasse"
+  },
+  {
+    "question": "Para que serve o CT-e no transporte?",
+    "expected_document": "financeiro.md",
+    "expected_topic": "cte"
+  },
+  {
+    "question": "Como pedir um comprovante de entrega?",
+    "expected_document": "entregas.md",
+    "expected_topic": "comprovante"
+  }
+]

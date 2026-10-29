@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="LogiPilot AI 3.0: RAG híbrido, automações, aprovação humana, relatórios e avaliação.">
+  <title>LogiPilot AI 3.0 | Operations Intelligence</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#eaf0fa;background:#0d1321;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 85% -20%,#24395d 0%,transparent 44%),#0d1321}
+    .shell{max-width:1220px;margin:auto;padding:28px 28px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:36px}
+    .brand{display:flex;align-items:center;gap:12px;font-size:17px;font-weight:800;letter-spacing:-.5px}.logo{display:grid;place-items:center;width:37px;height:37px;border-radius:12px;background:#72e2c1;color:#102b2e;font-size:21px}
+    .nav{display:flex;align-items:center;gap:14px;font-size:13px;color:#b7c4d7}.nav a{color:#c4d5ea;text-decoration:none}.nav a:hover{text-decoration:underline}
+    .status{display:inline-flex;align-items:center;gap:8px;background:#132a35;border:1px solid #236453;padding:8px 11px;border-radius:100px;color:#a9ead7;font-size:12px;font-weight:600}
+    .dot{width:7px;height:7px;border-radius:50%;background:#71e2b7;box-shadow:0 0 0 4px #71e2b722}
+    .hero{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:31px}.eyebrow{font-size:12px;letter-spacing:2px;color:#72e2c1;text-transform:uppercase;font-weight:800}
+    h1{font-size:clamp(30px,4vw,49px);line-height:1.07;letter-spacing:-2px;margin:12px 0 15px;max-width:790px}h1 span{color:#72e2c1}.hero p{color:#a9b9cf;line-height:1.7;max-width:720px;margin:0;font-size:14px}
+    .tag{border:1px solid #2d415a;border-radius:99px;padding:7px 12px;color:#b3c4d8;font-size:11px;white-space:nowrap}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}.stat,.panel{border:1px solid #25344b;background:linear-gradient(148deg,#172339,#111b2d);border-radius:15px;box-shadow:0 12px 34px #00000015}
+    .stat{padding:23px 24px}.stat .small{font-size:12px;color:#9fb0c6;margin-bottom:12px}.stat .number{font-size:32px;letter-spacing:-1px;font-weight:800}.stat .label{font-size:11px;color:#7188a6;margin-top:5px}
+    .main{display:grid;grid-template-columns:1.04fr .96fr;gap:19px}.panel{padding:25px;min-width:0}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px}
+    .head h2{font-size:18px;letter-spacing:-.4px;margin:0}.mini{font-size:11px;color:#8c9eb7}.pill{border:1px solid #365a63;border-radius:7px;padding:5px 8px;color:#8bd7bf;font-size:11px;white-space:nowrap}
+    .sub{font-size:13px;line-height:1.7;color:#9eb0c8;margin:0 0 21px}label{display:block;font-size:12px;color:#d9e7f9;font-weight:650;margin-bottom:9px}
+    textarea{width:100%;min-height:104px;resize:vertical;background:#0d1728;color:#f0f6ff;border:1px solid #34465f;border-radius:10px;padding:14px 15px;font:inherit;font-size:13px;line-height:1.6;outline:none}
+    textarea:focus{border-color:#72e2c1;box-shadow:0 0 0 3px #72e2c119}textarea::placeholder{color:#69809e}
+    button{cursor:pointer;font:inherit}.primary{margin-top:11px;background:#74e4c2;color:#0c2a2a;border:0;border-radius:9px;font-size:13px;font-weight:800;padding:12px 17px;transition:filter .15s}.primary:hover{filter:brightness(1.1)}.primary:disabled{opacity:.5;cursor:wait}
+    .examples{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.examples button{border:1px solid #354963;background:#17283e;border-radius:8px;color:#bdcbe0;font-size:11px;padding:7px 9px}
+    .response{margin-top:21px;background:#0d192b;border:1px solid #2c3e58;border-radius:11px;padding:16px;min-height:114px}.response .title{font-size:11px;color:#80d9c3;letter-spacing:1px;text-transform:uppercase;font-weight:800;margin-bottom:11px}
+    .response p{font-size:13px;line-height:1.8;white-space:pre-wrap;color:#dfebf9;margin:0}.response .muted{color:#8c9cb3}.source{border-top:1px solid #243c50;padding-top:10px;margin-top:13px;font-size:11px;color:#99b8d5;line-height:1.5}
+    .block{border-top:1px solid #28384f;padding-top:24px;margin-top:25px}.items{display:grid;gap:9px;margin-top:12px}.item{background:#111d30;border:1px solid #28384d;border-radius:10px;padding:12px 14px;font-size:12px;line-height:1.5;color:#dce7f6}
+    .item .meta{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:5px;font-size:10px;color:#8ca4bf}.level{font-weight:800;font-size:10px;letter-spacing:.5px}.CRITICA{color:#ff7d8a}.ALTA{color:#ffbf85}.MEDIA{color:#f8d881}.BAIXA{color:#81dfb8}
+    .advanced{display:grid;grid-template-columns:1fr 1fr 1fr;gap:19px;margin-top:21px}
+    .action-buttons{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+    .smallbtn{border:1px solid #4c6279;background:#24364d;color:#e4edf9;border-radius:7px;padding:7px 9px;font-size:11px;font-weight:650}
+    .dangerbtn{border-color:#804b5b;color:#ffb6bd}.report-text{max-height:290px;overflow:auto;white-space:pre-wrap;font-size:12px;line-height:1.7;color:#d6e5f7}
+    .scorecards{display:flex;gap:8px;flex-wrap:wrap}.score{padding:9px;background:#0e1829;border:1px solid #2c3c51;border-radius:9px;flex:1;min-width:85px}
+    .score strong{display:block;font-size:19px;color:#7ce2c6}.score span{font-size:10px;color:#9bb1ce}
+    .footer{color:#8194ac;font-size:12px;margin-top:24px;line-height:1.7;text-align:center}
+    .foot-tag{color:#72e2c1;font-weight:700}
+    @media(max-width:1050px){.advanced{grid-template-columns:1fr 1fr}}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.tag{display:none}.main{grid-template-columns:1fr}}
+    @media(max-width:680px){.advanced{grid-template-columns:1fr}}
+    @media(max-width:600px){.shell{padding:20px 14px 35px}.top{align-items:flex-start;flex-wrap:wrap;margin-bottom:27px}.nav{flex-wrap:wrap}.stats{grid-template-columns:1fr 1fr;gap:10px}.stats .stat:last-child{grid-column:span 2}.stat{padding:17px}.panel{padding:17px}h1{letter-spacing:-1.1px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top">
+      <div class="brand"><div class="logo">↗</div>LogiPilot<span style="color:#72e2c1">AI</span></div>
+      <nav class="nav"><a href="/docs" target="_blank" rel="noopener">API / Swagger ↗</a><span id="status" class="status"><span class="dot"></span>Verificando API...</span></nav>
+    </header>
+    <section class="hero">
+      <div><div class="eyebrow">Portfólio de Engenharia de IA · v3.0</div><h1>Operações mais inteligentes.<br><span>Decisões mais rápidas.</span></h1><p>Assistente com RAG aprimorado, IA local, revisão humana de alertas e avaliação de resultados. Criado com dados fictícios para fins educacionais.</p></div>
+      <div class="tag">Python · FastAPI · Ollama · RAG híbrido · SQLite</div>
+    </section>
+    <section class="stats" aria-label="Indicadores operacionais">
+      <div class="stat"><div class="small">Ocorrências registradas</div><div id="total" class="number">—</div><div class="label">Registros no banco de demonstração</div></div>
+      <div class="stat"><div class="small">Alertas automáticos</div><div id="alerts-count" class="number">—</div><div class="label">Casos de prioridade alta ou crítica</div></div>
+      <div class="stat"><div class="small">Trechos de conhecimento</div><div id="docs" class="number">—</div><div id="provider-text" class="label">Mecanismo RAG</div></div>
+    </section>
+    <section class="main">
+      <article class="panel">
+        <div class="head"><h2>Assistente de conhecimento</h2><span class="pill" id="mode-label">RAG</span></div>
+        <p class="sub">Pergunte sobre entregas, avarias, extravios e procedimentos de transporte. A resposta inclui as fontes encontradas na base fictícia.</p>
+        <form id="ask-form"><label for="question">Sua pergunta</label><textarea id="question" placeholder="Ex.: O que fazer quando uma carga é extraviada?" required minlength="3" maxlength="1000"></textarea><button class="primary" id="ask-btn" type="submit">Consultar documentos →</button></form>
+        <div class="examples"><button type="button" data-question="O que fazer em caso de extravio de carga?">Extravio de carga</button><button type="button" data-question="Como registrar uma tentativa de entrega sem sucesso?">Tentativa de entrega</button><button type="button" data-question="Como conferir divergência em repasses?">Repasses financeiros</button></div>
+        <div class="response" aria-live="polite"><div class="title">Resultado da consulta</div><p id="answer" class="muted">Aguardando sua primeira pergunta.</p><div id="answer-metadata" class="mini" style="margin-top:9px"></div><div id="sources"></div></div>
+      </article>
+      <article class="panel">
+        <div class="head"><h2>Central de ocorrências</h2><span class="pill">LLM + proteção por regras</span></div>
+        <p class="sub">Registre um problema operacional. O modelo local analisa o caso, regras impedem rebaixar riscos graves e ações externas exigem aprovação.</p>
+        <form id="incident-form"><label for="description">Descrição da ocorrência</label><textarea id="description" placeholder="Ex.: Avaria de carga identificada durante a entrega" required minlength="5" maxlength="1500"></textarea><button class="primary" id="incident-btn" type="submit">Registrar ocorrência →</button></form>
+        <div class="examples"><button type="button" data-incident="Extravio de carga no centro de distribuição">Extravio (crítica)</button><button type="button" data-incident="Entrega com atraso por congestionamento">Atraso (média)</button><button type="button" data-incident="Comprovante de entrega disponível">Comprovante (baixa)</button></div>
+        <div class="response" aria-live="polite"><div class="title">Resultado da automação</div><p id="incident-result" class="muted">Registre uma ocorrência para ver o resultado.</p></div>
+        <div class="block"><div class="head"><h2>Últimos registros</h2><span class="mini">Atualização local</span></div><div id="recent" class="items"><div class="item">Nenhum registro ainda.</div></div></div>
+      </article>
+    </section>
+    <section class="advanced" aria-label="Automações, relatórios e métricas">
+      <article class="panel">
+        <div class="head"><h2>Fila de aprovação</h2><span id="pending-pill" class="pill">0 pendentes</span></div>
+        <p class="sub">Alertas graves geram propostas de ação. Nada é enviado externamente sem aprovação e configuração explícita.</p>
+        <div id="actions" class="items"><div class="item">Carregando ações...</div></div>
+      </article>
+      <article class="panel">
+        <div class="head"><h2>Relatório com IA</h2><span class="pill">Ollama local</span></div>
+        <p class="sub">Gere uma análise das ocorrências fictícias com recomendações para revisão humana. O arquivo Markdown é salvo localmente.</p>
+        <button class="primary" id="report-btn" type="button">Gerar relatório →</button>
+        <div class="response"><div class="title">Relatório executivo</div><div id="report-result" class="report-text muted">Clique para gerar uma análise.</div><div id="report-file" class="mini" style="margin-top:9px"></div></div>
+      </article>
+      <article class="panel">
+        <div class="head"><h2>Avaliação RAG</h2><span class="pill">Métricas locais</span></div>
+        <p class="sub">Teste a recuperação das fontes usando perguntas com respostas esperadas. Não é um teste automático de veracidade do LLM.</p>
+        <div class="scorecards"><div class="score"><strong id="hit1">—</strong><span>Hit@1</span></div><div class="score"><strong id="topic1">—</strong><span>Assunto@1</span></div><div class="score"><strong id="latency">—</strong><span>Latência média</span></div></div>
+        <button class="primary" id="evaluate-btn" type="button">Executar avaliação →</button>
+        <div id="eval-result" class="mini" style="margin-top:12px">Sem avaliação nesta execução.</div>
+        <div class="block"><div class="head"><h2>Telemetria</h2></div><div id="metrics" class="mini">Aguardando consultas...</div></div>
+      </article>
+    </section>
+    <div class="footer"><span class="foot-tag">LogiPilot AI</span> · Projeto demonstrativo 3.0 · Dados fictícios · IA local com Ollama · Sem chave de API · Sem cobrança por requisição · <a style="color:#a2c7e5" href="/docs">Explorar API</a></div>
+  </div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    async function api(path, options){
+      const r = await fetch(path, options);
+      let payload;
+      try { payload = await r.json(); } catch { throw new Error('O servidor não retornou JSON válido.'); }
+      if (!r.ok) throw new Error(typeof payload.detail === 'string' ? payload.detail : 'Erro na operação.');
+      return payload;
+    }
+    function jsonPost(data){ return {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}; }
+    async function refresh(){
+      try{
+        const [health,summary,incidents] = await Promise.all([api('/api/health'),api('/api/summary'),api('/api/incidents')]);
+        $('status').textContent='● API funcionando';
+        $('total').textContent=summary.total_registrados;
+        $('alerts-count').textContent=summary.alertas;
+        $('docs').textContent=health.documents;
+        $('mode-label').textContent=(health.retrieval==='semantic'?'RAG semântico':'Busca TF-IDF')+' · '+(health.provider==='demo'?'sem LLM':'Ollama local');
+        $('provider-text').textContent='IA: '+(health.provider==='demo'?'demonstração':health.llm_model)+' · Índice: '+(health.semantic_index==='pronto'?'pronto':'precisa indexar');
+        const list=$('recent');list.replaceChildren();
+        if(!incidents.length){const div=document.createElement('div');div.className='item';div.textContent='Nenhuma ocorrência registrada ainda.';list.appendChild(div);}
+        incidents.slice(0,4).forEach(item=>{
+          const container=document.createElement('div');container.className='item';
+          const meta=document.createElement('div');meta.className='meta';
+          const number=document.createElement('span');number.textContent='#'+item.id+' · '+item.created_at;
+          const priority=document.createElement('span');priority.className='level '+item.priority;priority.textContent=item.priority;
+          meta.append(number,priority);
+          const description=document.createElement('div');description.textContent=item.description;
+          container.append(meta,description);list.appendChild(container);
+        });
+      } catch(err){ $('status').textContent='API indisponível'; }
+    }
+    $('ask-form').addEventListener('submit',async(event)=>{
+      event.preventDefault();const button=$('ask-btn');button.disabled=true;
+      $('answer').textContent='Consultando documentos e gerando resposta local (a primeira resposta pode demorar)...';$('sources').replaceChildren();
+      try{
+        const result=await api('/api/ask',jsonPost({question:$('question').value}));
+        $('answer').classList.remove('muted');$('answer').textContent=result.answer;
+        $('answer-metadata').textContent='Modo: '+result.mode+' · Verificação: '+result.quality+' · Tempo: '+result.latency_ms+' ms';
+        result.sources.forEach(s=>{const node=document.createElement('div');node.className='source';const metric=s.score_kind==='tfidf'?'escore TF-IDF':'similaridade cosseno';node.textContent='['+s.id+'] '+s.document+' / '+(s.section||'Geral')+' · '+metric+': '+s.score.toFixed(3)+' · Trecho: '+s.excerpt;$('sources').append(node);});
+      }catch(err){ $('answer').textContent='Erro: '+err.message; }
+      finally{button.disabled=false;}
+    });
+    $('incident-form').addEventListener('submit',async(event)=>{
+      event.preventDefault();const button=$('incident-btn');button.disabled=true;
+      $('incident-result').textContent='Registrando...';
+      try{
+        const result=await api('/api/incidents',jsonPost({description:$('description').value}));
+        $('incident-result').classList.remove('muted');
+        $('incident-result').textContent='Ocorrência #'+result.id+' · '+result.classification.tipo+' · Prioridade '+result.priority+' ('+result.classification.metodo+').\nJustificativa: '+result.classification.justificativa+'\nSugestão: '+result.classification.acao_sugerida+'\n'+(result.approval_required?'Ação aguardando aprovação humana.':'Sem alerta grave.');
+        $('description').value='';await refresh();await refreshActions();
+      }catch(err){ $('incident-result').textContent='Erro: '+err.message; }
+      finally{button.disabled=false;}
+    });
+    document.querySelectorAll('[data-question]').forEach(el=>el.addEventListener('click',()=>{$('question').value=el.dataset.question;$('question').focus();}));
+    document.querySelectorAll('[data-incident]').forEach(el=>el.addEventListener('click',()=>{$('description').value=el.dataset.incident;$('description').focus();}));
+    function formatPct(value){return value==null?'—':Math.round(value*100)+'%';}
+    async function refreshActions(){
+      try{const items=await api('/api/actions');const root=$('actions');root.replaceChildren();
+        const pending=items.filter(x=>x.status==='PENDENTE');$('pending-pill').textContent=pending.length+' pendentes';
+        if(!pending.length){const el=document.createElement('div');el.className='item';el.textContent='Nenhuma ação aguardando aprovação.';root.append(el);return;}
+        pending.slice(0,8).forEach(a=>{const node=document.createElement('div');node.className='item';
+          const text=document.createElement('div');text.textContent='#'+a.incident_id+' · '+a.priority+' · '+a.description;
+          const actions=document.createElement('div');actions.className='action-buttons';
+          ['approve','reject'].forEach(kind=>{const b=document.createElement('button');b.className='smallbtn '+(kind==='reject'?'dangerbtn':'');b.textContent=kind==='approve'?'Aprovar':'Rejeitar';
+            b.addEventListener('click',async()=>{b.disabled=true;try{const data=await api('/api/actions/'+a.id+'/'+kind,jsonPost({}));alert(kind==='approve'?'Aprovação registrada. '+data.delivery:'Ação rejeitada; nenhum envio realizado.');await refreshActions();await refresh();}catch(e){alert(e.message);b.disabled=false;}});actions.append(b);});
+          node.append(text,actions);root.append(node);});
+      }catch(e){$('actions').textContent='Erro: '+e.message;}}
+    async function refreshEvaluation(){
+      try{const [ev,metric]=await Promise.all([api('/api/evaluation/latest'),api('/api/metrics')]);
+        if(ev){$('hit1').textContent=formatPct(ev.hit_at_1);$('topic1').textContent=formatPct(ev.topic_at_1);
+          $('latency').textContent=ev.avg_latency_ms+'ms';$('eval-result').textContent=ev.count+' perguntas · '+ev.mode+' · '+ev.note;}
+        $('metrics').textContent=metric.questions+' consultas · '+metric.avg_latency_ms+'ms em média · '+metric.fallbacks+' respostas em fallback.';
+      }catch(e){$('eval-result').textContent='Não foi possível carregar as métricas.';}}
+    $('report-btn').addEventListener('click',async()=>{const b=$('report-btn');b.disabled=true;$('report-result').textContent='Gerando análise com Ollama...';
+      try{const r=await api('/api/reports/generate',jsonPost({}));$('report-result').textContent=r.report;$('report-file').textContent='Salvo em: reports/'+r.file;}
+      catch(e){$('report-result').textContent='Erro: '+e.message;}finally{b.disabled=false;}});
+    $('evaluate-btn').addEventListener('click',async()=>{const b=$('evaluate-btn');b.disabled=true;$('eval-result').textContent='Avaliando recuperação local...';
+      try{await api('/api/evaluation/run',jsonPost({}));await refreshEvaluation();}
+      catch(e){$('eval-result').textContent='Erro: '+e.message;}finally{b.disabled=false;}});
+    refresh();refreshActions();refreshEvaluation();
+  </script>
+</body>
+</html>
